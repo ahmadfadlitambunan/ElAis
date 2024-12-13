@@ -4,10 +4,10 @@
 <br />
 <div align="center">
 
-  <h1 align="center">Tanya Pusat Penelitian Kelapa Sawit</h1>
+  <h1 align="center">ElAis</h1>
 
   <p align="center">
-    An awesome chat AI to get know what you want to ask about our Product Knowledge!
+    An awesome chat AI to get know what you want to ask about PPKS profile, products and services!
     <br />
     <a href="https://chatbot-ppks.streamlit.app/"><strong>View demo »</strong></a>
     <br />
@@ -25,7 +25,6 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
@@ -40,10 +39,10 @@
 ## About The Project
 
 <p align="center">
-  <img src="data\asset\image.png" alt="Image">
+  <img src="image\ELA 1x1.jpg" alt="Image" width="320" height="320">
 </p>
 
-Chat Bot PPKS adalah asisten tanya jawab inovatif yang menggunakan teknologi Artificial Intelligence untuk memberikan interaksi cerdas dan relevan mengenai produk dan riset yang dikembangkan oleh Pusat Penelitian Kelapa Sawit (PPKS). Menggunakan Generative AI (LLM), aplikasi ini dapat memberikan jawaban yang akurat dan cepat sesuai dengan pertanyaan pengguna, serta memahami konteks percakapan dengan baik.
+ElAis adalah asisten tanya jawab inovatif yang menggunakan teknologi Artificial Intelligence untuk memberikan interaksi cerdas dan relevan mengenai profile, layanan jasa, serta produk dan riset yang dikembangkan oleh Pusat Penelitian Kelapa Sawit (PPKS). Menggunakan Generative AI (LLM), aplikasi ini dapat memberikan jawaban yang akurat dan cepat sesuai dengan pertanyaan pengguna, serta memahami konteks percakapan dengan baik.
 
 Dari sisi bisnis, produk ini memberikan solusi yang tepat untuk memperkuat dukungan pelanggan, meningkatkan proses internal, dan memberikan pengalaman pengguna yang lebih baik dengan biaya yang lebih rendah dibandingkan metode tradisional seperti fine-tuning model besar.
 
@@ -52,51 +51,16 @@ Dari sisi bisnis, produk ini memberikan solusi yang tepat untuk memperkuat dukun
 <!-- GETTING STARTED -->
 ## Getting Started
 
-### Prerequisites
-  
-* Ollama
-  - [Download Ollama](https://ollama.com/download)
-  - After installed. Pull the model.
-    - Run ollama first
-      ```sh
-      ollama serve
-      ```
-    - Then, pull model that you want to use.
-      ```sh
-      ollama pull model-name
-
-      # ollama pull llama3.1:8b
-      ```
-      > **Note:** Currently we using llama3.1:8b, because that model which ai.konik can run fluently. If your computer capable may you use llama3.1:70b model so it make a great chat conversation.
-
-    
-<p align="right"><a href="#">🔝</a></p>
-
 ### Installation
 
 1. Clone the repository
 
    ```sh
-   git clone https://github.com/ridopandiSinaga/Chat-bot-PPKS.git
+   git clone https://github.com/ahmadfadlitambunan/ElAis.git
    ```
-2. Get identity for .env
-   
-     - Get a free API Key at 
-        - [https://console.groq.com/](https://console.groq.com/) (You don't need this if using LLM from Ollama)
-        - [https://atlas.nomic.ai/](https://atlas.nomic.ai/)
-     - Create new instances AuraDB Free on [https://console.neo4j.io/](https://console.neo4j.io/) then download the identity (url, username, & password).
-    
-      Then complete the .env
-      
-      ```sh
-      NEO4J_URI="neo4j+s://a208f8ae.databases.neo4j.io"
-      NEO4J_USERNAME="neo4j"
-      NEO4J_PASSWORD="rAMePwhcSHE8tAHCY50AkcoINxuqxr2ACfYPtXDmcPU"
-      GROQ_API_KEY = #"You don't need this if using LLM from Ollama"
-      NOMIC_API_KEY=
-      ```
+2. Set env variable
 
-      For NEO4J identity you can use ours so you don't need build knowledge graph from scratch.
+   
     
 3. Create virtual environment
    
@@ -121,19 +85,8 @@ Dari sisi bisnis, produk ini memberikan solusi yang tepat untuk memperkuat dukun
    ```
    
 5. Run the project
-
-    Make sure Ollama running
-
-    ```sh
-    ollama serve 
-    ```
-
-    Change to Chat Directory
-   ```sh
-   cd ChatPPKS
-   ```
-
-    Run Streamlit
+   
+    **Run Streamlit**
 
     ```sh
     streamlit run app.py
@@ -158,7 +111,7 @@ Dari sisi bisnis, produk ini memberikan solusi yang tepat untuk memperkuat dukun
 ## Arcitecture
 
 <p align="center">
-  <img src="data\asset\arcitecture.png" alt="Image">
+  <img src="image\arcitecture.png" alt="Image">
 </p>
 
 <p align="right"><a href="#">🔝</a></p>
