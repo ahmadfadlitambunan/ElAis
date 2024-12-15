@@ -135,43 +135,46 @@ def load_llm_groq(KEY):
         api_key=KEY
     )
 
-# Get list main api keys
-main_keys = [
-    st.secrets['groq_key']['groq_1'],
-    st.secrets['groq_key']['groq_2'],
-    st.secrets['groq_key']['groq_3'],
-    st.secrets['groq_key']['groq_4'],
-    st.secrets['groq_key']['groq_5'],
-    # st.secrets['groq_key']['groq_6'],
-    # st.secrets['groq_key']['groq_7'],
-    # st.secrets['groq_key']['groq_8'],
-    # st.secrets['groq_key']['groq_9'],
-    # st.secrets['groq_key']['groq_10'],
-]
+# # Get list main api keys
+# main_keys = [
+#     st.secrets['groq_key']['groq_1'],
+#     st.secrets['groq_key']['groq_2'],
+#     st.secrets['groq_key']['groq_3'],
+#     st.secrets['groq_key']['groq_4'],
+#     st.secrets['groq_key']['groq_5'],
+#     # st.secrets['groq_key']['groq_6'],
+#     # st.secrets['groq_key']['groq_7'],
+#     # st.secrets['groq_key']['groq_8'],
+#     # st.secrets['groq_key']['groq_9'],
+#     # st.secrets['groq_key']['groq_10'],
+# ]
 
-# Get list backup api keys
-backup_keys = [
-    st.secrets['groq_key']['groq_11'],
-    st.secrets['groq_key']['groq_12'],
-    st.secrets['groq_key']['groq_13'],
-    st.secrets['groq_key']['groq_14'],
-    # st.secrets['groq_key']['groq_15'],
-    # st.secrets['groq_key']['groq_16'],
-    # st.secrets['groq_key']['groq_17'],
-    # st.secrets['groq_key']['groq_18'],
-    # st.secrets['groq_key']['groq_19'],
-    # st.secrets['groq_key']['groq_20'],
+# # Get list backup api keys
+# backup_keys = [
+#     st.secrets['groq_key']['groq_11'],
+#     st.secrets['groq_key']['groq_12'],
+#     st.secrets['groq_key']['groq_13'],
+#     st.secrets['groq_key']['groq_14'],
+#     # st.secrets['groq_key']['groq_15'],
+#     # st.secrets['groq_key']['groq_16'],
+#     # st.secrets['groq_key']['groq_17'],
+#     # st.secrets['groq_key']['groq_18'],
+#     # st.secrets['groq_key']['groq_19'],
+#     # st.secrets['groq_key']['groq_20'],
 
-]
+# ]
 
-# Determine the api key currently in use
-if not st.session_state.use_backup:
-    current_key = main_keys[st.session_state.current_main_key_idx]
-else:
-    current_key = backup_keys[st.session_state.backup_idx]
+# # Determine the api key currently in use
+# if not st.session_state.use_backup:
+#     current_key = main_keys[st.session_state.current_main_key_idx]
+# else:
+#     current_key = backup_keys[st.session_state.backup_idx]
 
-llm_groq = load_llm_groq(current_key)
 
+llms_groq = [load_llm_groq(st.secrets['groq_key']['groq_1']), load_llm_groq(st.secrets['groq_key']['groq_2']), load_llm_groq(st.secrets['groq_key']['groq_3']), load_llm_groq(st.secrets['groq_key']['groq_4']), load_llm_groq(st.secrets['groq_key']['groq_5'])]
+
+random_idx = random.randint(0, 4)
+llm_groq = llms_groq[random_idx]
 
 @st.cache_resource
 def connect_to_google_sheets():
@@ -614,71 +617,75 @@ if prompt:
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # Saving user prompt to session state
-    st.session_state.messages_product_knowledge.append({'role' : 'user', 'content': prompt})
-
-    try:
+    try :
         # Getting response from llm model
         response = chain.stream({
             "chat_history" : st.session_state.chat_history_product_knowledge, 
             "question" : prompt
         })
-    
+        
+        # Saving user prompt to session state
+        st.session_state.messages_product_knowledge.append({'role' : 'user', 'content': prompt})
+
         # Displaying response
         with st.chat_message("assistant", avatar="./assets/ELA 1x1.jpg"):
             response = st.write_stream(stream_response(response))
-    
+
         # Saving response to chat history in session state
         st.session_state.messages_product_knowledge.append({'role' : 'assistant', 'content': response})
-    
+
         # Saving user and llm response to chat history
         st.session_state.chat_history_product_knowledge.append((prompt, response))
-    
+
         # Just use 3 latest chat to chat history
         if len(st.session_state.chat_history_product_knowledge) > 3:
             st.session_state.chat_history_product_knowledge = st.session_state.chat_history_product_knowledge[-3:]
-    
+
         # Buat session ID jika belum ada
         if "session_id" not in st.session_state:
             st.session_state.session_id = str(uuid.uuid4())
-    
+
         # Cetak session ID
         # st.write("Session ID:", st.session_state.session_id)
-    
+
         end_counter = time.perf_counter()
-    
+
         total_time = end_counter - start_counter
         st.session_state['total_time'] += total_time 
         # st.write(st.session_state['total_time'], st.session_state['idx_llm'], random_idx)
-
     except Exception as e:
+        st.error("Sedang Terjadi Error, silahkan refresh laman dan coba lagi!")
+    
+    
+    
 
-        if 'rate limit' in str(e).lower() or 'too many requests' in str(e).lower():
-            st.error("Terjadi limit penggunaan, silakan coba lagi nanti.")
 
-        elif 'Organization has been restricted' in str(e).lower() or 'organization_restricted' in str(e).lower():
+    #     if 'rate limit' in str(e).lower() or 'too many requests' in str(e).lower():
+    #         st.error("Terjadi limit penggunaan, silakan coba lagi nanti.")
 
-            try:
-                st.error("Terjadi Organization Restricted. Mengganti API Key dengan backup key.... Silahkan coba lagi")
+    #     elif 'Organization has been restricted' in str(e).lower() or 'organization_restricted' in str(e).lower():
+
+    #         try:
+    #             st.error("Terjadi Organization Restricted. Mengganti API Key dengan backup key.... Silahkan coba lagi")
                 
-                # Jika belum menggunakan backup key, mulai dengan backup key pertama
-                if not st.session_state.use_backup:
-                    st.session_state.use_backup = True
-                    st.session_state.backup_idx = 0
-                else:
-                    # Sudah menggunakan backup, ganti ke backup key berikutnya
-                    st.session_state.backup_idx += 1
-                    if st.session_state.backup_idx >= len(backup_keys):
-                        # Semua backup keys sudah dicoba
-                        st.error("Semua backup API key sudah habis digunakan, mohon coba lagi nanti.")
+    #             # Jika belum menggunakan backup key, mulai dengan backup key pertama
+    #             if not st.session_state.use_backup:
+    #                 st.session_state.use_backup = True
+    #                 st.session_state.backup_idx = 0
+    #             else:
+    #                 # Sudah menggunakan backup, ganti ke backup key berikutnya
+    #                 st.session_state.backup_idx += 1
+    #                 if st.session_state.backup_idx >= len(backup_keys):
+    #                     # Semua backup keys sudah dicoba
+    #                     st.error("Semua backup API key sudah habis digunakan, mohon coba lagi nanti.")
                 
-                # Muat ulang llm dengan backup key yang baru
-                new_key = backup_keys[st.session_state.backup_idx]
-                llm_groq = load_llm_groq(new_key)
+    #             # Muat ulang llm dengan backup key yang baru
+    #             new_key = backup_keys[st.session_state.backup_idx]
+    #             llm_groq = load_llm_groq(new_key)
 
-            except Exception as e:
-                print("e")
+    #         except Exception as e:
+    #             print("e")
         
-        else:
-            st.error(f"Terjadi error: {e}")
+    #     else:
+    #         st.error(f"Terjadi error: {e}")
         
