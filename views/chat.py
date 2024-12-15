@@ -92,6 +92,40 @@ if 'use_backup' not in st.session_state:
 if 'backup_idx' not in st.session_state:
     st.session_state.backup_idx = -1
 
+def remove_lucene_chars_cust(text: str) -> str:
+    """Remove Lucene special characters"""
+    special_chars = [
+        "+",
+        "-",
+        "&",
+        "|",
+        "!",
+        "(",
+        ")",
+        "{",
+        "}",
+        "[",
+        "]",
+        "^",
+        '"',
+        "~",
+        "*",
+        "?",
+        ":",
+        "\\",
+        "/"
+    ]
+
+    for char in special_chars:
+        if char in text:
+            # if char == "/":
+            #     text = text.replace(char, "\\/")
+            # else :
+            text = text.replace(char, " ")
+    
+    return text.strip()
+
+
 # Load llm model using Groq
 @st.cache_resource
 def load_llm_groq(KEY):
@@ -257,7 +291,7 @@ entity_chain = prompt | llm_groq.with_structured_output(Entities)
 # Generate Query
 def generate_full_text_query(input: str) -> str:
     full_text_query = ""
-    words = [el for el in remove_lucene_chars(input).split() if el]
+    words = [el for el in remove_lucene_chars_cust(input).split() if el]
     for word in words[:-1]:
         full_text_query += f" {word}~2 AND"
     full_text_query += f" {words[-1]}~2"
@@ -292,6 +326,7 @@ def structured_retriever(question: str) -> str:
     return result
 
 def retrieve_context_by_vector(question):
+    question = remove_lucene_chars_cust(question)
     return [el for el in vector_index.similarity_search(question, k=4)]
 
 # def _retriever(): 
