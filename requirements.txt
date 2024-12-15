@@ -10,3 +10,6 @@ oauth2client==4.1.3
 pydantic==2.10.2
 python-dotenv==1.0.1
 streamlit==1.40.1
+llama-index-core==0.11.23
+llama-parse==0.5.14
+llama-index-readers-file==0.3.0
