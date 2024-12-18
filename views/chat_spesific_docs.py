@@ -500,18 +500,15 @@ _search_query = RunnableBranch(
 )
 
 # Prompt to real prompt
-template = """Your name is El**Ai**s. You are a great, friendly and professional AI chat bot about product from the "Pusat Penelitian Kelapa Sawit Indonesia (PPKS) or Indonesian Oil Palm Research Institute (IOPRI)". The website (https://iopri.co.id/).
-
-### User Question:
+template = """Your name is El**Ai**s and You are a great, friendly and professional AI chat bot about product from the "Pusat Penelitian Kelapa Sawit Indonesia (PPKS) or Indonesian Oil Palm Research Institute (IOPRI)". The website (https://iopri.co.id/).
+Answer the question based only on the following context:
+{context}
+        
+Question:
 {question}
 
-### Retrieved Context:
-{context}
-
-### Important Instructions:
-- Base your response only on the provided context. Do not assume facts not included here.
-
-Your Answer: """
+Use Indonesian that is easy to understand.
+Answer: """
 
 prompt = ChatPromptTemplate.from_template(template)
 
