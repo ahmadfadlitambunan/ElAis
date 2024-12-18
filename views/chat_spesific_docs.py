@@ -176,10 +176,12 @@ def load_llm_groq(KEY):
 
 # llm_groq = load_llm_groq(current_key)
 
-llms_groq = [load_llm_groq(st.secrets['groq_key']['groq_1']), load_llm_groq(st.secrets['groq_key']['groq_2']), load_llm_groq(st.secrets['groq_key']['groq_3']), load_llm_groq(st.secrets['groq_key']['groq_4']), load_llm_groq(st.secrets['groq_key']['groq_5'])]
+# llms_groq = [load_llm_groq(st.secrets['groq_key']['groq_1']), load_llm_groq(st.secrets['groq_key']['groq_2']), load_llm_groq(st.secrets['groq_key']['groq_3']), load_llm_groq(st.secrets['groq_key']['groq_4']), load_llm_groq(st.secrets['groq_key']['groq_5'])]
 
-random_idx = random.randint(0, 4)
-llm_groq = llms_groq[random_idx]
+# random_idx = random.randint(0, 4)
+# llm_groq = llms_groq[random_idx]
+
+llm_groq = load_llm_groq(st.secrets['groq_key']['groq_1'])
 
 
 @st.cache_resource
