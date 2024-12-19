@@ -61,7 +61,6 @@ st.session_state.llm = [
     load_llm_groq(st.secrets['groq_key_for_convert']['groq_1']),
     load_llm_groq(st.secrets['groq_key_for_convert']['groq_2']),
     load_llm_groq(st.secrets['groq_key_for_convert']['groq_3']),
-    load_llm_groq(st.secrets['groq_key_for_convert']['groq_4'])
 ]
 
 
@@ -222,11 +221,11 @@ async def convert_document(file_path, llms, graph, metadata):
                 progress = 0
                 
                 for idx in range(chunks_len):
-                    llm_list_idx = [0,1,2,3,0,1,2,3,0,1,2,3]
+                    llm_list_idx = [0,1,2,0,1,2,0,1,2,0,1,2]
                     llm_idx = llm_list_idx[idx]
 
                     task = asyncio.create_task(convert_and_add_graph_from_doc(llm=llms[llm_idx], graph=graph, chunks=chunks[idx]))
-                    await asyncio.sleep(20)
+                    await asyncio.sleep(10)
                     await task
                     
                     progress += progress_increment
@@ -239,7 +238,7 @@ async def convert_document(file_path, llms, graph, metadata):
                 progress = 0
 
                 for idx in range(len(chunks)):
-                    llm_list_idx = [0,1,2,3,0,1,2,3,0,1,2,3]
+                    llm_list_idx = [0,1,2,0,1,2,0,1,2,0,1,2]
                     llm_idx = llm_list_idx[idx]
 
                     task = asyncio.create_task(convert_and_add_graph_from_doc(llm=llms[llm_idx], graph=graph, chunks=chunks[idx]))
